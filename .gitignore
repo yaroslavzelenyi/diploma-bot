@@ -1,0 +1,6 @@
+node_modules/
+cfg/config.js
+package-lock.json
+.well-known/
+.DS_Store
+scripts
