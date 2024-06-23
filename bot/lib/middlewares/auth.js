@@ -26,17 +26,18 @@ async function required (ctx, next) {
     const allowReply = throttle(tgId);
     if (allowReply) {
         const user = await getUser(tgId);
-        if (user) {
+        if (user && user.is_logged) {
             ctx.state.user = user;
             await next();
+        } else {
+            await ctx.reply('Для цього треба бути зареєстрованим!');
         }
     }
 };
 
 async function getUser (tgId) {
     const tg_user = await mongodb().collection('tg_users').findOne({
-        tg_id: String(tgId),
-        is_logged: 1
+        tg_id: String(tgId)
     })
     if (!tg_user) {
         return false;
